@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:yoga_app/model/PostClass.dart';
+import 'package:yoga_app/model/PostModel.dart';
 import 'package:yoga_app/view/pages_home/FeedViewDetails.dart';
 
 class FeedView extends StatefulWidget {

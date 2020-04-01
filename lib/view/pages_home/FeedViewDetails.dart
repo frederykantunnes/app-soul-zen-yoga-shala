@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yoga_app/model/PostClass.dart';
+import 'package:yoga_app/model/PostModel.dart';
 
 class FeedViewDetails extends StatelessWidget{
   @override
