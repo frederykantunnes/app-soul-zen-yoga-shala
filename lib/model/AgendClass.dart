@@ -1,17 +1,46 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:yoga_app/config/StringsConfig.dart';
 
 class AgendClass{
-  final List<List<String>> agenda = [
-    ["Formação em Yoga Somático", "Rua Hermes Maia, PB", "03 de Fevereiro", "Gratuito"],
-    ["Formação em Yoga", "Rua Hermes Maia, PB", "03 de Fevereiro", "29,90"],
-    ["Yoga Somático", "Rua Hermes Maia, PB", "03 de Fevereiro", "100,00"],
-    ["Formação Somático", "Rua Hermes Maia, PB", "03 de Fevereiro", "Gratuito"],
-    ["Yoga", "Rua Hermes Maia, PB", "03 de Fevereiro", "Gratuito"],
-  ];
+
+  final int id;
+  final String titulo;
+  final String descricao;
+  final String link;
+  final String data;
+  final String endereco;
+  final String valor;
 
 
 
-  Future<Null> refreshAgenda() async{
+  AgendClass({this.id, this.titulo, this.descricao, this.link, this.data,
+    this.endereco, this.valor});
 
+  factory AgendClass.fromJson(Map<String, dynamic> json) {
+    return AgendClass(
+      id: json['id'],
+      titulo: json['titulo'],
+      descricao: json['descricao'],
+      link: json['link'],
+      data: json['data'],
+      endereco: json['endereco'],
+      valor: json['valor']
+    );
+  }
+
+  Future<List<AgendClass>> fetchAgend() async {
+    final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_agend);
+    if (response.statusCode == 200) {
+      Iterable l = json.decode(response.body);
+      List<AgendClass> agenda = null;
+      agenda = l.map((i)=> AgendClass.fromJson(i)).toList();
+      return agenda;
+      // return PostClass.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
 }

@@ -3,63 +3,79 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yoga_app/model/AgendClass.dart';
 
-class AgendView extends StatelessWidget {
+
+class AgendView extends StatefulWidget {
+  @override
+  _AgendViewState createState() => _AgendViewState();
+}
+
+class _AgendViewState extends State<AgendView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Agenda Soul"),
-      ),
-      body: RefreshIndicator(
-        onRefresh: AgendClass().refreshAgenda,
-        child: ListView.builder(
-            itemCount: AgendClass().agenda.length,
-            itemBuilder: (context, index){
-              return Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child:GestureDetector(
-                  onTap: (){
-                    final snack = SnackBar(
-                      content: Text("Confirmar Participação?"),
-                      action: SnackBarAction(
-                        onPressed: () {
-                        },
-                        label: "Sim",
-                      ),
-                      duration: Duration(seconds: 3),
-                    );
-                    Scaffold.of(context).showSnackBar(snack);
-                  },
-                  child: Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(Icons.date_range),
-                                Text("  "+AgendClass().agenda[index][0], style: TextStyle(fontSize: 20), textAlign: TextAlign.left,),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: Text(AgendClass().agenda[index][1], textAlign: TextAlign.left, style: TextStyle(fontSize: 10),),
-                            ),
-                            Text(AgendClass().agenda[index][2], textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.grey),),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              child: Text("R\$: " + AgendClass().agenda[index][3], textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.green),),
-                            )
-                          ],
-                        ),
-                      )
-                  ),
-                ),
-              );
-            }
+        appBar: AppBar(
+          title: Text("Próximos Eventos Soul"),
         ),
-      ),
+        body: FutureBuilder(
+            future: AgendClass().fetchAgend(),
+            builder: (context, projectSnap) {
+              if(projectSnap.data == null){
+                return Container(
+                  padding: EdgeInsets.all(20),
+                  child: Center(
+                    child:Column(
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        SizedBox(height: 10,),
+                        Text("Buscando Eventos...")
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.builder(
+                  itemCount: projectSnap.data == null ? 0 : projectSnap.data.length,
+                  itemBuilder: (context, index) {
+                    AgendClass agend = projectSnap.data[index];
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child:GestureDetector(
+//                        onTap: (){
+//
+//                        },
+                        child: Card(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(Icons.date_range),
+                                      Text("  "+agend.titulo, style: TextStyle(fontSize: 20), textAlign: TextAlign.left,),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                    child: Text( agend.endereco, textAlign: TextAlign.left, style: TextStyle(fontSize: 10),),
+                                  ),
+                                  Text(agend.descricao, textAlign: TextAlign.justify,),
+                                  SizedBox(height: 20,),
+                                  Text( agend.data.toString(), textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.grey),),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                    child: Text(agend.valor, textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.green),),
+                                  )
+                                ],
+                              ),
+                            )
+                        ),
+                      ),
+                    );
+                  }
+              );
+            })
     );
   }
 }
