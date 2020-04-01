@@ -7,7 +7,7 @@ import 'package:yoga_app/config/StringsConfig.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yoga_app/view/HomeView.dart';
+import 'package:yoga_app/view/HomeViewNew.dart';
 
 
 class UserController{
@@ -67,7 +67,8 @@ class UserController{
           UserModel user = UserModel.fromJson(json.decode(response.body));
           _insert(user);
           Navigator.pop(context);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+          Navigator.pop(context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
           DialogAlert().showMessageDialog(context, "Conta Criada", "Bem vindo ao App Soul Zen Yoga Shala!");
         } else {
 //          Navigator.pop(context);
@@ -97,7 +98,7 @@ class UserController{
         UserModel user = UserModel.fromJson(json.decode(response.body));
         _insert(user);
         Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
       } else {
         Navigator.pop(context);
         DialogAlert().showMessageDialog(context, "Login", "Usuário e/ou Senha Inválidos!");
