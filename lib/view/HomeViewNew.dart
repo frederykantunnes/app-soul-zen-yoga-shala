@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yoga_app/view/pages_home/AgendView.dart';
 import 'package:yoga_app/view/pages_home/ExercisesView.dart';
 import 'package:yoga_app/view/pages_home/FeedView.dart';
+import 'package:yoga_app/view/pages_home/MeditacaoView.dart';
 import 'package:yoga_app/view/pages_home/ProfileView.dart';
 import 'package:yoga_app/view/pages_home/TurmaView.dart';
 
@@ -170,7 +171,7 @@ class _MyHomePageState extends State<HomeViewNew> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AgendView()));
                 break;
               case 2:
-                //Meditacao
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MeditacaoView()));
                 break;
               case 3:
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TurmaView()));

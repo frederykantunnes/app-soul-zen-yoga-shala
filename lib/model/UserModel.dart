@@ -9,7 +9,7 @@ class UserModel {
   final String cidade;
   final String cep;
   final String telefone;
-  final String turma;
+  String turma;
   final String dataprimeiraaula;
   final String nascimento;
 

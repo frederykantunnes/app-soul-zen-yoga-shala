@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yoga_app/model/ExerciseClass.dart';
+import 'package:yoga_app/model/ExerciseModel.dart';
 
 class ExercisesView extends StatelessWidget {
   @override

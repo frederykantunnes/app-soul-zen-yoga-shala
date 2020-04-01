@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yoga_app/controller/UserController.dart';
+import 'package:yoga_app/model/MessagesModel.dart';
+import 'package:yoga_app/model/TurmaModel.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 
 
@@ -10,6 +12,9 @@ class TurmaView extends StatefulWidget {
 }
 
 class _TurmaViewState extends State<TurmaView> {
+
+  TextEditingController controllerCode = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     if( UserController.usuarioLogado.turma == null){
@@ -43,6 +48,8 @@ class _TurmaViewState extends State<TurmaView> {
                                   borderRadius: BorderRadius.circular(10)
                               )
                           ),
+                          controller: controllerCode,
+                          keyboardType: TextInputType.number,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
@@ -50,7 +57,12 @@ class _TurmaViewState extends State<TurmaView> {
                             color: Colors.blueAccent,
                             child: Text("Ingressar", style: TextStyle(color: Colors.white),),
                             onPressed: (){
-                              DialogAlert().showProgressDialog(context, "Validando Código...");
+                              if(controllerCode.text.isNotEmpty){
+                                DialogAlert().showProgressDialog(context, "Validando Código...");
+                                TurmaClass().entrarNaTurma(controllerCode.text, context);
+                              }else{
+                                DialogAlert().showMessageDialog(context, "Ingressar", "Insira um código de acesso.");
+                              }
                             },
                           ),
                         )
@@ -75,12 +87,40 @@ class _TurmaViewState extends State<TurmaView> {
         ),
       );
     }else{
-      return Scaffold(
-        body: Container(),
+
+
+
+      return DefaultTabController(
+        length: choices.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Turma de Yoga'),
+            bottom: TabBar(
+              isScrollable: true,
+              tabs: choices.map((Choice choice) {
+                return Tab(
+                  text: choice.title,
+                  icon: Icon(choice.icon),
+                );
+              }).toList(),
+            ),
+          ),
+          body: TabBarView(
+            children: choices.map((Choice choice) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ChoiceCard(choice: choice),
+              );
+            }).toList(),
+          ),
+        ),
       );
+
+
     }
   }
 }
+
 
 
 Future<void> _launchInBrowser(String url) async {
@@ -94,4 +134,115 @@ Future<void> _launchInBrowser(String url) async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+class Choice {
+  const Choice({this.title, this.icon});
+  final String title;
+  final IconData icon;
+}
+
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'Exercícios', icon: Icons.spa),
+  const Choice(title: 'Mensagens', icon: Icons.message),
+  const Choice(title: 'Anamnese', icon: Icons.assignment),
+];
+
+class ChoiceCard extends StatelessWidget {
+  const ChoiceCard({Key key, this.choice}) : super(key: key);
+  final Choice choice;
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme.of(context).textTheme.display1;
+    switch(choice.title){
+      case "Exercícios":
+        return exercicios(context);
+        break;
+      case "Mensagens":
+        return mensagens(context);
+        break;
+      case "Anamnese":
+        return anamnese(context);
+        break;
+    }
+  }
+}
+
+
+Widget exercicios(BuildContext context){
+  return Container(
+    child: Center(
+      child: Text("Exercícios aqui"),
+    ),
+  );
+}
+
+
+Widget mensagens(BuildContext context){
+  List<MessagesClass> _listMessages = new List<MessagesClass>();
+  _listMessages.add(new MessagesClass(id: 1, message: "Opa", data: new DateTime.now(), idusuarioreceived: 21, idusuariosend: 1));
+  _listMessages.add(new MessagesClass(id: 2, message: "Ola", data: new DateTime.now(), idusuarioreceived: 1, idusuariosend: 21));
+  _listMessages.add(new MessagesClass(id: 3, message: "Tudo bem?", data: new DateTime.now(), idusuarioreceived: 21, idusuariosend: 1));
+  return Container(
+      child: ListView.builder(
+          itemCount: _listMessages.length,
+          itemBuilder: (context, index){
+            if(_listMessages[index].isMy()){
+              return Card(
+                margin: EdgeInsets.only(left: 30, bottom: 10),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Text(_listMessages[index].message),
+                        Text(_listMessages[index].data.toString(), style: TextStyle(fontSize: 10),),
+                      ],
+                    ),
+                  )
+              );
+            }else{
+              return Card(
+                margin: EdgeInsets.only(right: 30, bottom: 10),
+                color: Colors.white70,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(_listMessages[index].message),
+                      Text(_listMessages[index].data.toString(), style: TextStyle(fontSize: 10),),
+                    ],
+                  ),
+                )
+              );
+            }
+          }),
+  );
+}
+
+
+Widget anamnese(BuildContext context){
+  return Container(
+    child: Center(
+      child: Column(
+        children: <Widget>[
+          Icon(Icons.verified_user, size: 200, color: Colors.lightGreen,),
+          Text("Anamnase Preenchida", style: TextStyle(fontSize: 22),),
+          Text("Atualizada em 28/02/2019"),
+          SizedBox(
+            height: 50,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: RaisedButton(
+              color: Colors.lightBlue,
+              child: Text("Atualizar Ficha", style: TextStyle(color: Colors.white),),
+              onPressed: (){},
+            ),
+          )
+        ],
+      ),
+    ),
+  );
 }
