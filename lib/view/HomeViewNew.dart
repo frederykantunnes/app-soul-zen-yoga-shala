@@ -140,7 +140,7 @@ class _MyHomePageState extends State<HomeViewNew> {
           .width - 60 / 2) / 280,
       children: <Widget>[
         createTile(0,_selectedIndex,false, 'News', Colors.purple, Icons.rss_feed),
-        createTile(1,_selectedIndex,true, 'Agenda', Colors.deepOrange, Icons.calendar_today),
+        createTile(1,_selectedIndex,true, 'Eventos', Colors.deepOrange, Icons.calendar_today),
         createTile(2,_selectedIndex,false, 'Meditação', Colors.redAccent, Icons.spa),
         createTile(3,_selectedIndex,true, 'Turma', Colors.lime, Icons.group_work),
         createTile(4,_selectedIndex,false, 'Exercícios', Colors.green, Icons.directions_run),
