@@ -29,25 +29,20 @@ class TurmaClass{
   }
 
   Future<TurmaClass> entrarNaTurma(String code, BuildContext context) async {
-    final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_turma+"/"+code+"/login/"+UserController.usuarioLogado.id.toString());
-
+    final response = await http.get(StringsConfig().urlApi+"/entrarnaturma/"+UserController.usuarioLogado.id.toString()+"/"+code);
+    print(StringsConfig().urlApi+"/entrarnaturma/"+UserController.usuarioLogado.id.toString()+"/"+code);
     if (response.statusCode == 200) {
       Navigator.pop(context);
-      if(response.body == ""){
-        DialogAlert().showMessageDialog(context, "Ingresso na turma", "Ops, codigo da turma não existe. Utilize um código válido!");
-        return null;
-      }else{
-        TurmaClass turma = TurmaClass.fromJson(json.decode(response.body));
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TurmaView()));
-        DialogAlert().showMessageDialog(context, "Ingresso na turma", "Parabéns, Ingresso realizado com sucesso!");
-        UserController.usuarioLogado.turma = turma.codigodeacesso;
-        return turma;
-      }
+      TurmaClass turma = TurmaClass.fromJson(json.decode(response.body));
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TurmaView()));
+      DialogAlert().showMessageDialog(context, "Ingresso na turma", "Parabéns, Ingresso realizado com sucesso!");
+      UserController.usuarioLogado.turma = turma.id.toString();
+      return turma;
     } else {
       Navigator.pop(context);
-      DialogAlert().showMessageDialog(context, "Ingresso na turma", "Erro");
-      throw Exception('Failed to load data');
+      DialogAlert().showMessageDialog(context, "Ingresso na turma", "Ops, algo deu errado, verifique codigo de acesso!");
+//      throw Exception('Failed to load data');
     }
   }
 

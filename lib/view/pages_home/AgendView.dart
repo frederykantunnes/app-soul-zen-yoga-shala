@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yoga_app/model/AgendModel.dart';
-
+import 'package:intl/intl.dart';
 
 class AgendView extends StatefulWidget {
   @override
@@ -11,6 +11,8 @@ class AgendView extends StatefulWidget {
 
 class _AgendViewState extends State<AgendView> {
   @override
+
+  final f = new DateFormat('dd/MM/yyyy  -  hh:mm a');
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -62,10 +64,10 @@ class _AgendViewState extends State<AgendView> {
                                   ),
                                   Text(agend.descricao, textAlign: TextAlign.justify,),
                                   SizedBox(height: 20,),
-                                  Text( agend.data.toString(), textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.grey),),
+                                  Text( "Data: "+f.format(DateTime.parse(agend.data.toString())), textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.grey),),
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                    child: Text(agend.valor, textAlign: TextAlign.left, style: TextStyle(fontSize: 15, color: Colors.green),),
+                                    child: Text(agend.valor, textAlign: TextAlign.left, style: TextStyle(fontSize: 20, color: Colors.green),),
                                   )
                                 ],
                               ),

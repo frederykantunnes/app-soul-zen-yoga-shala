@@ -130,26 +130,7 @@ class _MyHomePageState extends State<ProfileView> {
               child: new Stack(
                 children: <Widget>[
 
-                  new Padding(
-                    padding: new EdgeInsets.only(
-                        top: _height / 6.3, left: _width / 2.5),
-                    child: new Row(
-                      children: <Widget>[
-                        new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text(
-                              'Dados Pessoais',
-                              style: new TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+
                   new Padding(
                     padding: new EdgeInsets.only(
                         top: _height / 3.8,

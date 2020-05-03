@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yoga_app/controller/UserController.dart';
 import 'package:yoga_app/view/CreateAccountView.dart';
-import 'package:yoga_app/view/DialogAlert.dart';
-
 //class Login extends StatefulWidget {
 //  @override
 //  _LoginState createState() => _LoginState();

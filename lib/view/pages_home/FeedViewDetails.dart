@@ -12,7 +12,7 @@ class FeedViewDetails extends StatelessWidget{
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Image.network(PostClass.selectedPost.imagem),
+              Image.network("http://admin.soulzenyogashala.com.br/"+PostClass.selectedPost.imagem),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: (

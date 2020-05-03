@@ -31,7 +31,7 @@ class PostClass {
   }
 
   Future<List<PostClass>> fetchPost() async {
-    final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_posts+"0/20/");
+    final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_posts);
     if (response.statusCode == 200) {
       Iterable l = json.decode(response.body);
       List<PostClass> posts = null;

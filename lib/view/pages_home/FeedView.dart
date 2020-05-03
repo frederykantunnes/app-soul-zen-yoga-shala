@@ -55,7 +55,7 @@ class _FeedViewState extends State<FeedView> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.network(
-                              post.imagem,
+                              "http://admin.soulzenyogashala.com.br/"+post.imagem,
                               height: 100,
                               width: 90,
                               fit: BoxFit.cover,

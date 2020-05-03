@@ -61,8 +61,8 @@ class UserController{
 //        final response = await http.post(StringsConfig().urlApi+StringsConfig().ep_users, headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8',}, body: jsonEncode(<String, String>{"email": "testeone@gmail.com","nome":"vix", "telefone": "098", "nascimento": "1991-01-01", "endereco": "asdasd", "bairro": "asdasd", "cidade": "asdasd", "cep": "45544555", "tipo": "1", "senha": "123456"}));
 
       DialogAlert().showProgressDialog(context, "Criando Conta...");
-      final response = await http.post(StringsConfig().urlApi+StringsConfig().ep_users, headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8',}, body: jsonEncode(<String, String>{'email': email, 'nome': nome, 'telefone': telefone, 'nascimento': nascimentoFinal, 'endereco': rua, 'bairro': bairro, 'cidade': cidade, 'cep': cep, 'dataprimeiraaula': null, 'turma': null, 'tipo': '0', 'senha': md5.convert(utf8.encode(senha)).toString()}));
-        if (response.statusCode == 200) {
+      final response = await http.post(StringsConfig().urlApi+StringsConfig().ep_users, headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8',}, body: jsonEncode(<String, String>{'email': email, 'nome': nome, 'telefone': telefone, 'nascimento': nascimentoFinal, 'endereco': rua, 'bairro': bairro, 'cidade': cidade, 'cep': cep, 'senha': md5.convert(utf8.encode(senha)).toString()}));
+        if (response.statusCode == 201) {
           Navigator.pop(context);
           UserModel user = UserModel.fromJson(json.decode(response.body));
           _insert(user);
@@ -73,7 +73,7 @@ class UserController{
         } else {
 //          Navigator.pop(context);
           DialogAlert().showMessageDialog(context, "Criar Conta", "Algo Deu errado");
-          throw Exception('Failed to load data');
+          throw Exception(response.statusCode);
         }
         }
     catch(e){
@@ -93,9 +93,9 @@ class UserController{
       DialogAlert().showMessageDialog(context, "Login", "Usuário e/ou Senha em Branco!");
     }else{
       DialogAlert().showProgressDialog(context, "Verificando Credenciais...");
-      final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_users+email_text.replaceAll(' ', '') +"/"+md5.convert(utf8.encode(senha_text)).toString());
-      if (response.statusCode == 200) {
-        UserModel user = UserModel.fromJson(json.decode(response.body));
+      final response = await http.get(StringsConfig().urlApi+"/autenticar/"+email_text.replaceAll(' ', '') +"/"+md5.convert(utf8.encode(senha_text)).toString());
+      if (response.statusCode == 200 && json.decode(response.body).length > 0) {
+        UserModel user = UserModel.fromJson(json.decode(response.body)[0]);
         _insert(user);
         Navigator.pop(context);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
@@ -127,12 +127,12 @@ class UserController{
     final allRows = await dbHelper.queryAllRows();
     print('query all rows:');
     if(allRows.length>0){
-      usuarioLogado = UserModel.fromJson(allRows.elementAt(0));;
-
-      final response = await http.get(StringsConfig().urlApi+StringsConfig().ep_users+usuarioLogado.email +"/"+usuarioLogado.senha);
-      if (response.statusCode == 200) {
+      usuarioLogado = UserModel.fromJson(allRows.elementAt(0));
+      print(StringsConfig().urlApi+"autenticar/"+usuarioLogado.email +"/"+usuarioLogado.senha);
+      final response = await http.get(StringsConfig().urlApi+"/autenticar/"+usuarioLogado.email +"/"+usuarioLogado.senha);
+      if (response.statusCode == 200 && json.decode(response.body).length > 0) {
         //atualizando os dados do usuario
-        UserModel user = UserModel.fromJson(json.decode(response.body));
+        UserModel user = UserModel.fromJson(json.decode(response.body)[0]);
         delete(context);
         _insert(user);
         usuarioLogado = user;

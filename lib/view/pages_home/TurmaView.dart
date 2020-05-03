@@ -5,7 +5,6 @@ import 'package:yoga_app/model/MessagesModel.dart';
 import 'package:yoga_app/model/TurmaModel.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 
-
 class TurmaView extends StatefulWidget {
   @override
   _TurmaViewState createState() => _TurmaViewState();
@@ -49,7 +48,7 @@ class _TurmaViewState extends State<TurmaView> {
                               )
                           ),
                           controller: controllerCode,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
