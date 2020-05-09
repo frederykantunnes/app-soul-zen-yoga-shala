@@ -24,7 +24,7 @@ class ExercisesView extends StatelessWidget {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 10,),
-                      Text("Buscando Eventos...")
+                      Text("Buscando Exercícios...")
                     ],
                   ),
                 ),
@@ -109,8 +109,8 @@ class ExercisesView extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(exercicio.titulo, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),maxLines: 2,),
-                                        Text(exercicio.descricao, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300), maxLines: 8, textAlign: TextAlign.justify,),
+                                        Text(exercicio.titulo, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                                        Text(exercicio.descricao, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300), maxLines: 7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify,),
                                       ],
                                     ),
                                   )

@@ -30,7 +30,6 @@ class TurmaClass{
 
   Future<TurmaClass> entrarNaTurma(String code, BuildContext context) async {
     final response = await http.get(StringsConfig().urlApi+"/entrarnaturma/"+UserController.usuarioLogado.id.toString()+"/"+code);
-    print(StringsConfig().urlApi+"/entrarnaturma/"+UserController.usuarioLogado.id.toString()+"/"+code);
     if (response.statusCode == 200) {
       Navigator.pop(context);
       TurmaClass turma = TurmaClass.fromJson(json.decode(response.body));

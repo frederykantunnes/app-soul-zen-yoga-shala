@@ -119,16 +119,13 @@ class UserController{
       DatabaseHelper.idColumn: user.id,
     };
     final id = await dbHelper.insert(row);
-    print('inserted row id: $id');
     usuarioLogado = user;
   }
 
   Future<bool> isLogado(BuildContext context) async {
     final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
     if(allRows.length>0){
       usuarioLogado = UserModel.fromJson(allRows.elementAt(0));
-      print(StringsConfig().urlApi+"autenticar/"+usuarioLogado.email +"/"+usuarioLogado.senha);
       final response = await http.get(StringsConfig().urlApi+"/autenticar/"+usuarioLogado.email +"/"+usuarioLogado.senha);
       if (response.statusCode == 200 && json.decode(response.body).length > 0) {
         //atualizando os dados do usuario
@@ -151,7 +148,6 @@ class UserController{
   }
 
   Future<bool> delete(BuildContext context) async {
-    print('delete');
     dbHelper.delete(usuarioLogado.id);
     return isLogado(context);
   }

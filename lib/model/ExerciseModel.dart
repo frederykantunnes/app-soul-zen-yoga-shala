@@ -7,7 +7,7 @@ import 'package:yoga_app/model/UserModel.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 
 class ExerciseClass{
-  final int id;
+  final String id;
   final String titulo;
   final String descricao;
   final String duracao;
@@ -20,7 +20,7 @@ class ExerciseClass{
 
   factory ExerciseClass.fromJson(Map<String, dynamic> json) {
     return ExerciseClass(
-        id: json['id'],
+        id: json['id'].toString(),
         titulo: json['titulo'],
         descricao: json['descricao'],
         duracao: json['duracao'],
