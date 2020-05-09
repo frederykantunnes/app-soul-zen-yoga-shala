@@ -16,16 +16,18 @@ class _FeedViewState extends State<FeedView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Feed de Notícias"),
+        title: Text("Notícias"),
+        backgroundColor: Colors.blueAccent,
       ),
       body: FutureBuilder(
         future: PostClass().fetchPost(),
         builder: (context, projectSnap) {
           if(projectSnap.data == null){
             return Container(
-              padding: EdgeInsets.all(20),
               child: Center(
                 child:Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     CircularProgressIndicator(),
                     SizedBox(height: 10,),
@@ -42,17 +44,45 @@ class _FeedViewState extends State<FeedView> {
             itemBuilder: (context, index) {
               PostClass post = projectSnap.data[index];
               return FlatButton(
+                padding: EdgeInsets.all(0),
                   onPressed: (){
                     PostClass.selectedPost = post;
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>FeedViewDetails()));
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-                    child: Padding(
-                      padding: EdgeInsets.all(7),
-                      child: Row(
-                        children: <Widget>[
-                          ClipRRect(
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        height: 150,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 45, top: 15, right: 10),
+                          child: Card(
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(width: 30,),
+                                Container(
+                                  child: Expanded(
+                                    child: Text(post.titulo, textAlign: TextAlign.left, style: TextStyle(fontSize: 20, color: Colors.blueGrey, fontWeight: FontWeight.w300), maxLines: 5),
+                                  ),
+                                ),
+                                SizedBox(width: 10,),
+                              ],
+                            ),
+                          ),
+                        )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, top: 5),
+                        child: Container(
+//                          decoration: new BoxDecoration(
+//                            border: Border.all(width: 0.2),
+//                            borderRadius: BorderRadius.circular(10),
+//                            shape: BoxShape.rectangle,
+//                          ),
+                          width: 60,
+                          height:60,
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.network(
                               "http://admin.soulzenyogashala.com.br/"+post.imagem,
@@ -61,16 +91,10 @@ class _FeedViewState extends State<FeedView> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          SizedBox(width: 10,),
-                          Container(
-                            child: Expanded(
-                              child: Text(post.titulo, textAlign: TextAlign.justify, style: TextStyle(fontSize: 17), maxLines: 3,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                      )
+                    ],
+                  )
               );
             },
           );

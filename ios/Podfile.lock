@@ -1,8 +1,12 @@
 PODS:
+  - barcode_scan (0.0.1):
+    - Flutter
+    - MTBBarcodeScanner
   - Flutter (1.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - MTBBarcodeScanner (5.0.11)
   - path_provider (0.0.1):
     - Flutter
   - path_provider_macos (0.0.1):
@@ -18,6 +22,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - Flutter (from `Flutter`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -29,8 +34,11 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - FMDB
+    - MTBBarcodeScanner
 
 EXTERNAL SOURCES:
+  barcode_scan:
+    :path: ".symlinks/plugins/barcode_scan/ios"
   Flutter:
     :path: Flutter
   path_provider:
@@ -47,15 +55,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
+  barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+PODFILE CHECKSUM: 49ec7d4076524b7e225c38b98147173651ac4b9d
 
 COCOAPODS: 1.8.4

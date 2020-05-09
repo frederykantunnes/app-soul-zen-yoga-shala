@@ -175,7 +175,10 @@ class _LoginNewState extends State<Login> {
               Container(
                 height: 200.0,
                 width: double.infinity,
-                color: Colors.blueAccent,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                  color: Colors.blueAccent,
+                ),
               ),
               Positioned(
                   bottom: 150,
@@ -227,7 +230,7 @@ class _LoginNewState extends State<Login> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset("images/logo_icon.png", width: MediaQuery.of(context).size.width - 200,),
+                      Image.asset("images/logo_icon.png", width: MediaQuery.of(context).size.width - 150,),
                     ],
                   ),
 

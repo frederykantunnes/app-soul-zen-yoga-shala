@@ -35,9 +35,12 @@ class _MyHomePageState extends State<HomeViewNew> {
           Stack(
             children: <Widget>[
               Container(
-                height: 200.0,
+                height: 150.0,
                 width: double.infinity,
-                color: Colors.blueAccent,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                  color: Colors.blueAccent,
+                ),
               ),
               Positioned(
                   bottom: 150,
@@ -83,7 +86,7 @@ class _MyHomePageState extends State<HomeViewNew> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: 70.0,
+                    height: 60.0,
                   ),
                  Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,28 +99,6 @@ class _MyHomePageState extends State<HomeViewNew> {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    child: Container(
-                      height: 80,
-                      width: MediaQuery.of(context).size.width,
-                      child: Material(
-                        elevation: 2.0,
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset("images/botton.png", width: MediaQuery.of(context).size.width-100,)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ],
@@ -138,9 +119,9 @@ class _MyHomePageState extends State<HomeViewNew> {
       childAspectRatio: (MediaQuery
           .of(context)
           .size
-          .width - 60 / 2) / 280,
+          .width - 20 / 2) / 280,
       children: <Widget>[
-        createTile(0,_selectedIndex,false, 'News', Colors.purple, Icons.rss_feed),
+        createTile(0,_selectedIndex,false, 'Notícias', Colors.purple, Icons.rss_feed),
         createTile(1,_selectedIndex,true, 'Eventos', Colors.deepOrange, Icons.calendar_today),
         createTile(2,_selectedIndex,false, 'Meditação', Colors.redAccent, Icons.spa),
         createTile(3,_selectedIndex,true, 'Turma', Colors.lime, Icons.group_work),
@@ -154,7 +135,7 @@ class _MyHomePageState extends State<HomeViewNew> {
 
     return Padding(
       padding: EdgeInsets.only(
-          left:  isEven?10:20, right: isEven?20:10, top: 10, bottom: 10),
+          left:  isEven?5:20, right: isEven?20:5, top: 10, bottom: 3),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: GestureDetector(
@@ -185,23 +166,23 @@ class _MyHomePageState extends State<HomeViewNew> {
             }
           },
           child: Material(
-            elevation: 3.0,
+            elevation: 1.0,
             color: _selectedIndex==index?Colors.lightBlueAccent:Colors.white,
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(10.0),
             child: Padding(
-              padding: const EdgeInsets.only(left: 20,top: 20,bottom: 20),
+              padding: const EdgeInsets.only(left: 20,top: 30,bottom: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Icon(icon,color: _selectedIndex==index?Colors.white:color, size: 30,),
+                  Icon(icon,color: _selectedIndex==index?Colors.white:color, size: 40,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         title,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: _selectedIndex==index?Colors.white:Colors.black),
                       ),

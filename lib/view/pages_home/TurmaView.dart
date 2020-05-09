@@ -4,6 +4,8 @@ import 'package:yoga_app/controller/UserController.dart';
 import 'package:yoga_app/model/MessagesModel.dart';
 import 'package:yoga_app/model/TurmaModel.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
 
 class TurmaView extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class TurmaView extends StatefulWidget {
 class _TurmaViewState extends State<TurmaView> {
 
   TextEditingController controllerCode = new TextEditingController();
+  String result = "Hey there !";
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +47,43 @@ class _TurmaViewState extends State<TurmaView> {
                               labelText: "Código de Ingresso",
                               hintText: "Ex: VGSER2FD",
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)
+                                  borderRadius: BorderRadius.circular(3)
                               )
                           ),
                           controller: controllerCode,
                           keyboardType: TextInputType.text,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: RaisedButton(
-                            color: Colors.blueAccent,
-                            child: Text("Ingressar", style: TextStyle(color: Colors.white),),
-                            onPressed: (){
-                              if(controllerCode.text.isNotEmpty){
-                                DialogAlert().showProgressDialog(context, "Validando Código...");
-                                TurmaClass().entrarNaTurma(controllerCode.text, context);
-                              }else{
-                                DialogAlert().showMessageDialog(context, "Ingressar", "Insira um código de acesso.");
-                              }
-                            },
-                          ),
+                        SizedBox(height: 5,),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width:137,
+                              height: 50,
+                              child: RaisedButton(
+                                  color: Colors.blueAccent,
+                                  child: Text("Ler QR Code", style: TextStyle(color: Colors.white),),
+                                  onPressed:_scanQR
+//                                  _scanQR
+                              ),
+                            ),
+                            SizedBox( width: 5, ),
+                            SizedBox(
+                              width: 130,
+                              height: 50,
+                              child: RaisedButton(
+                                color: Colors.green,
+                                child: Text("Ingressar", style: TextStyle(color: Colors.white),),
+                                onPressed: (){
+                                  if(controllerCode.text.isNotEmpty){
+                                    DialogAlert().showProgressDialog(context, "Validando Código...");
+                                    TurmaClass().entrarNaTurma(controllerCode.text, context);
+                                  }else{
+                                    DialogAlert().showMessageDialog(context, "Ingressar", "Insira um código de acesso.");
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -86,9 +106,6 @@ class _TurmaViewState extends State<TurmaView> {
         ),
       );
     }else{
-
-
-
       return DefaultTabController(
         length: choices.length,
         child: Scaffold(
@@ -118,6 +135,42 @@ class _TurmaViewState extends State<TurmaView> {
 
     }
   }
+
+//
+//  Future _scan() async {
+//    String barcode = await scanner.scan();
+//    this.controllerCode.text = barcode;
+//  }
+
+
+
+  Future _scanQR() async {
+    try {
+      String qrResult = await BarcodeScanner.scan();
+      setState(() {
+        controllerCode.text = qrResult;
+      });
+    } on PlatformException catch (ex) {
+      if (ex.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          result = "Camera permission was denied";
+        });
+      } else {
+        setState(() {
+          result = "Unknown Error $ex";
+        });
+      }
+    } on FormatException {
+      setState(() {
+        result = "You pressed the back button before scanning anything";
+      });
+    } catch (ex) {
+      setState(() {
+        result = "Unknown Error $ex";
+      });
+    }
+  }
+
 }
 
 
@@ -142,9 +195,9 @@ class Choice {
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Exercícios', icon: Icons.spa),
-  const Choice(title: 'Mensagens', icon: Icons.message),
-  const Choice(title: 'Anamnese', icon: Icons.assignment),
+  const Choice(title: '     Aulas     ', icon: Icons.message),
+  const Choice(title: '  Exercícios  ', icon: Icons.directions_run),
+  const Choice(title: 'Notificações', icon: Icons.notifications),
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -154,14 +207,14 @@ class ChoiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextStyle textStyle = Theme.of(context).textTheme.display1;
     switch(choice.title){
-      case "Exercícios":
+      case "  Exercícios  ":
         return exercicios(context);
         break;
-      case "Mensagens":
-        return mensagens(context);
+      case "     Aulas     ":
+        return aulas(context);
         break;
-      case "Anamnese":
-        return anamnese(context);
+      case "Notificações":
+        return notificacoes(context);
         break;
     }
   }
@@ -177,7 +230,7 @@ Widget exercicios(BuildContext context){
 }
 
 
-Widget mensagens(BuildContext context){
+Widget aulas(BuildContext context){
   List<MessagesClass> _listMessages = new List<MessagesClass>();
   _listMessages.add(new MessagesClass(id: 1, message: "Opa", data: new DateTime.now(), idusuarioreceived: 21, idusuariosend: 1));
   _listMessages.add(new MessagesClass(id: 2, message: "Ola", data: new DateTime.now(), idusuarioreceived: 1, idusuariosend: 21));
@@ -186,7 +239,6 @@ Widget mensagens(BuildContext context){
       child: ListView.builder(
           itemCount: _listMessages.length,
           itemBuilder: (context, index){
-            if(_listMessages[index].isMy()){
               return Card(
                 margin: EdgeInsets.only(left: 30, bottom: 10),
                   child: Padding(
@@ -200,48 +252,15 @@ Widget mensagens(BuildContext context){
                     ),
                   )
               );
-            }else{
-              return Card(
-                margin: EdgeInsets.only(right: 30, bottom: 10),
-                color: Colors.white70,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(_listMessages[index].message),
-                      Text(_listMessages[index].data.toString(), style: TextStyle(fontSize: 10),),
-                    ],
-                  ),
-                )
-              );
-            }
           }),
   );
 }
 
 
-Widget anamnese(BuildContext context){
+Widget notificacoes(BuildContext context){
   return Container(
     child: Center(
-      child: Column(
-        children: <Widget>[
-          Icon(Icons.verified_user, size: 200, color: Colors.lightGreen,),
-          Text("Anamnase Preenchida", style: TextStyle(fontSize: 22),),
-          Text("Atualizada em 28/02/2019"),
-          SizedBox(
-            height: 50,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: RaisedButton(
-              color: Colors.lightBlue,
-              child: Text("Atualizar Ficha", style: TextStyle(color: Colors.white),),
-              onPressed: (){},
-            ),
-          )
-        ],
-      ),
+      child: Text('Opa'),
     ),
   );
 }

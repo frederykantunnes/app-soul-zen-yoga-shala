@@ -8,21 +8,29 @@ class FeedViewDetails extends StatelessWidget{
       child: Scaffold(
         appBar: AppBar(
           title: Text("Soul Zen Yoga Shala"),
+          backgroundColor: Colors.blueAccent,
         ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Image.network("http://admin.soulzenyogashala.com.br/"+PostClass.selectedPost.imagem),
+
+              ClipRRect(
+                borderRadius: BorderRadius.only( bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                child: Image.network(
+                  "http://admin.soulzenyogashala.com.br/"+PostClass.selectedPost.imagem,
+                  fit: BoxFit.cover,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: (
                     Column(
                       children: <Widget>[
-                        Text(PostClass.selectedPost.titulo, textAlign: TextAlign.center, style: TextStyle(fontSize: 17),),
+                        Text(PostClass.selectedPost.titulo, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        Text(PostClass.selectedPost.descricao, textAlign: TextAlign.justify,),
+                        Text(PostClass.selectedPost.descricao, textAlign: TextAlign.justify, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),),
                       ],
                     )
                 ),
