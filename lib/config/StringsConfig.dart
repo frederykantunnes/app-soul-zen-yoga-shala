@@ -4,6 +4,7 @@ class StringsConfig{
   final urlApi = "http://admin.soulzenyogashala.com.br/api";
   static final url = "http://admin.soulzenyogashala.com.br/";
   final ep_posts = "/posts";
+  final ep_financeiros = "/financeiros/";
   final ep_agend = "/proximoseventos";
   final ep_aulas = "/aulas/";
   final ep_turma = "/turmas";

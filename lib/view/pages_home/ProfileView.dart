@@ -3,6 +3,7 @@ import 'package:yoga_app/config/StringsConfig.dart';
 import 'package:yoga_app/controller/UserController.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 import 'package:yoga_app/view/LoginView.dart';
+import 'package:yoga_app/view/pages_home/FinanceView.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -154,7 +155,9 @@ class _ProfileViewState extends State<ProfileView> {
                       elevation: 0,
                       heroTag: 'financeiro',
                       child: Icon(Icons.attach_money),
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FinanceView()));
+                      },
                     ),
                     SizedBox(height: 5,),
                     Text(' Financeiro ')

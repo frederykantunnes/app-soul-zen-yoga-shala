@@ -353,7 +353,7 @@ Widget aulas(BuildContext context){
                 children: <Widget>[
                   CircularProgressIndicator(),
                   SizedBox(height: 10,),
-                  Text("Buscando Horário...")
+                  Text("Buscando Horários...")
                 ],
               ),
             ),
