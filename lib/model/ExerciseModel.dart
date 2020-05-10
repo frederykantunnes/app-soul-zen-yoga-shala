@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:yoga_app/config/StringsConfig.dart';
 import 'package:yoga_app/controller/UserController.dart';
-import 'package:yoga_app/model/UserModel.dart';
-import 'package:yoga_app/view/DialogAlert.dart';
 
 class ExerciseClass{
   final String id;

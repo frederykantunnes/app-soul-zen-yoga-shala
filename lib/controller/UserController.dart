@@ -94,10 +94,15 @@ class UserController{
       DialogAlert().showProgressDialog(context, "Verificando Credenciais...");
       final response = await http.get(StringsConfig().urlApi+"/autenticar/"+email_text.replaceAll(' ', '') +"/"+md5.convert(utf8.encode(senha_text)).toString());
       if (response.statusCode == 200 && json.decode(response.body).length > 0) {
-        UserModel user = UserModel.fromJson(json.decode(response.body)[0]);
-        _insert(user);
-        Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
+        if(response.body=="[null]"){
+          Navigator.pop(context);
+          DialogAlert().showMessageDialog(context, "Login", "Usuário e/ou Senha inválidos!");
+        }else{
+          UserModel user = UserModel.fromJson(json.decode(response.body)[0]);
+          _insert(user);
+          Navigator.pop(context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
+        }
       } else {
         Navigator.pop(context);
         DialogAlert().showMessageDialog(context, "Login", "Usuário e/ou Senha Inválidos!");

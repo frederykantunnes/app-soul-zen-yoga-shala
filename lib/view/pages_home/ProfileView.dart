@@ -179,8 +179,8 @@ class _ProfileViewState extends State<ProfileView> {
                     SizedBox(height: 30,),
                     Text("Turma", style: TextStyle(fontSize: 20),),
                     SizedBox(height: 5,),
-                    Text("Possui turma? "+ (UserController.usuarioLogado.turma.isEmpty?"Não":"Sim")),
-                    Text((UserController.usuarioLogado.turma.isEmpty?"":("Data de da Primeira Aula: "+UserController.usuarioLogado.dataprimeiraaula.toString()))),
+                    Text("Possui turma? "+ (UserController.usuarioLogado.turma==null?"Não":"Sim")),
+                    Text((UserController.usuarioLogado.turma==null?"":("Data de da Primeira Aula: "+UserController.usuarioLogado.dataprimeiraaula.toString()))),
                   ],
                 ),
               )
