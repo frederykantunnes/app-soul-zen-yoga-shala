@@ -31,13 +31,20 @@ dependencies:
   flutter_animated_loaders: ^0.0.2
   url_launcher: ^5.4.2
   font_awesome_flutter: ^8.8.1
-  barcode_scan: "^1.0.0"
+  barcode_scan: ^1.0.0
+  sticky_headers: ^0.1.8
+  youtube_player_flutter: ^6.1.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: "^0.7.0"
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "images/logo.png"
+  image_path_android: "images/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

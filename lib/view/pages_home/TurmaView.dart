@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yoga_app/config/StringsConfig.dart';
 import 'package:yoga_app/controller/UserController.dart';
+import 'package:yoga_app/model/AulaModel.dart';
 import 'package:yoga_app/model/ExerciseModel.dart';
-import 'package:yoga_app/model/MessagesModel.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:yoga_app/model/TurmaModel.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -134,19 +135,8 @@ class _TurmaViewState extends State<TurmaView> {
           ),
         ),
       );
-
-
     }
   }
-
-//
-//  Future _scan() async {
-//    String barcode = await scanner.scan();
-//    this.controllerCode.text = barcode;
-//  }
-
-
-
   Future _scanQR() async {
     try {
       String qrResult = await BarcodeScanner.scan();
@@ -173,21 +163,17 @@ class _TurmaViewState extends State<TurmaView> {
       });
     }
   }
-
-}
-
-
-
-Future<void> _launchInBrowser(String url) async {
-  if (await canLaunch(url)) {
-    await launch(
-      url,
-      forceSafariVC: false,
-      forceWebView: false,
-      headers: <String, String>{'my_header_key': 'my_header_value'},
-    );
-  } else {
-    throw 'Could not launch $url';
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
@@ -196,7 +182,6 @@ class Choice {
   final String title;
   final IconData icon;
 }
-
 const List<Choice> choices = const <Choice>[
   const Choice(title: '     Aulas     ', icon: Icons.message),
   const Choice(title: '  Exercícios  ', icon: Icons.directions_run),
@@ -207,8 +192,8 @@ class ChoiceCard extends StatelessWidget {
   const ChoiceCard({Key key, this.choice}) : super(key: key);
   final Choice choice;
   @override
+  // ignore: missing_return
   Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
     switch(choice.title){
       case "  Exercícios  ":
         return exercicios(context);
@@ -244,33 +229,23 @@ Widget exercicios(BuildContext context){
             ),
           );
         }
-
         return ListView.builder(
             itemCount: projectSnap.data == null ? 0 : projectSnap.data.length,
             itemBuilder: (context, index) {
               ExerciseClass exercicio = projectSnap.data[index];
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.only(bottom: 10),
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      height: 300.0,
+                      height: 250.0,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.blueAccent,
                       ),
                     ),
-                    Positioned(
-                        bottom: 150,
-                        left: -40,
-                        child: Container(
-                          height: 140,
-                          width: 140,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(70),
-                              color: Colors.tealAccent[100].withOpacity(0.1)),
-                        )),
+
                     Positioned(
                         top: -120,
                         left: 100,
@@ -309,14 +284,14 @@ Widget exercicios(BuildContext context){
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
                                 child: Image.network(
                                   StringsConfig.url+exercicio.imagem,
-                                  height: 300,
+                                  height: 250,
                                   width: 100,
                                   fit: BoxFit.cover,
                                 )
                             ),
                             Expanded(
                                 child: SizedBox(
-                                    height: 300,
+                                    height: 250,
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Column(
@@ -324,7 +299,7 @@ Widget exercicios(BuildContext context){
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text(exercicio.titulo, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),maxLines: 2,overflow: TextOverflow.ellipsis,),
-                                          Text(exercicio.descricao, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300), maxLines: 7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify,),
+                                          Text(exercicio.descricao, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300), maxLines: 6, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify,),
                                         ],
                                       ),
                                     )
@@ -338,7 +313,11 @@ Widget exercicios(BuildContext context){
                       left: 110,
                       child: Text(exercicio.duracao, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300),),
                     ),
-
+                    Positioned(
+                      bottom: 30,
+                      left: 110,
+                      child: Text(" PRO ", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300, backgroundColor: Colors.redAccent),),
+                    ),
                     Positioned(
                         bottom: 10,
                         right: 10,
@@ -347,7 +326,9 @@ Widget exercicios(BuildContext context){
                           backgroundColor: Colors.green,
                           child: Icon(Icons.play_arrow),
                           onPressed: (){
-                            Navigator.push(context,  MaterialPageRoute(builder: (context)=>ExercisesViewPlay()));
+                            Navigator.push(context,  MaterialPageRoute(builder: (context){
+                              return ExercisesViewPlay(exercicio);
+                            }));
                           },
                         )),
                   ],
@@ -358,38 +339,61 @@ Widget exercicios(BuildContext context){
       });
 }
 
-
 Widget aulas(BuildContext context){
-  List<MessagesClass> _listMessages = new List<MessagesClass>();
-  _listMessages.add(new MessagesClass(id: 1, message: "Opa", data: new DateTime.now(), idusuarioreceived: 21, idusuariosend: 1));
-  _listMessages.add(new MessagesClass(id: 2, message: "Ola", data: new DateTime.now(), idusuarioreceived: 1, idusuariosend: 21));
-  _listMessages.add(new MessagesClass(id: 3, message: "Tudo bem?", data: new DateTime.now(), idusuarioreceived: 21, idusuariosend: 1));
-  return Container(
-      child: ListView.builder(
-          itemCount: _listMessages.length,
-          itemBuilder: (context, index){
-              return Card(
-                margin: EdgeInsets.only(left: 30, bottom: 10),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text(_listMessages[index].message),
-                        Text(_listMessages[index].data.toString(), style: TextStyle(fontSize: 10),),
-                      ],
-                    ),
-                  )
+  return FutureBuilder(
+      future: AulaClass().fetchAula(),
+      builder: (context, projectSnap) {
+        if(projectSnap.data == null){
+          return Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10,),
+                  Text("Buscando Horário...")
+                ],
+              ),
+            ),
+          );
+        }
+        return ListView.builder(
+            itemCount: projectSnap.data == null ? 0 : projectSnap.data.length,
+            itemBuilder: (context, index) {
+              AulaClass aula = projectSnap.data[index];
+              return StickyHeader(
+                header: Container(
+                  height: 50.0,
+                  color: Colors.black54,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(aula.dia_semana,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(aula.titulo, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black54),),
+                    Text(aula.hora_inicio_fim, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),),
+                    Text("Professor: "+aula.professor,style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, color: Colors.grey), ),
+                    SizedBox(
+                      height: 20,
+                    )
+                  ],
+                )
               );
-          }),
-  );
+            }
+        );
+      });
 }
-
 
 Widget notificacoes(BuildContext context){
   return Container(
     child: Center(
-      child: Text('Opa'),
+      child: Text('Sem notificações'),
     ),
   );
 }

@@ -5,6 +5,7 @@ class StringsConfig{
   static final url = "http://admin.soulzenyogashala.com.br/";
   final ep_posts = "/posts";
   final ep_agend = "/proximoseventos";
+  final ep_aulas = "/aulas/";
   final ep_turma = "/turmas";
   final ep_users = "/alunos";
   final ep_exerc = "/exercicios/";

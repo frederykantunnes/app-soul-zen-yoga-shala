@@ -55,12 +55,12 @@ class _AgendViewState extends State<AgendView> {
                               children: <Widget>[
                                 SizedBox(height: 7,),
                                 FloatingActionButton(
-                                    backgroundColor: Colors.blueGrey,
+                                    backgroundColor: Colors.blueAccent,
                                     elevation: 1,
-                                    child: Text(DateTime.parse(agend.data.toString()).day.toString(), style: TextStyle( fontSize: 25, fontWeight: FontWeight.w300),)
+                                    child: Text(DateTime.parse(agend.data.toString()).day.toString(), style: TextStyle( fontSize: 25, fontWeight: FontWeight.w700),)
                                 ),
-                                Text(DateFormat('MMM').format(DateTime.parse(agend.data.toString())), style: TextStyle( fontSize: 20, fontWeight: FontWeight.w300, color: Colors.blueGrey),),
-                                Text(DateFormat('H').format(DateTime.parse(agend.data.toString()))+'h'+DateFormat('mm').format(DateTime.parse(agend.data.toString()))+'min', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w300, color: Colors.blueGrey),)
+                                SizedBox(height: 10,),
+                                Text(DateFormat('MMM').format(DateTime.parse(agend.data.toString())), style: TextStyle( fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent),),
                               ],
                             ),
                           ),
@@ -73,13 +73,15 @@ class _AgendViewState extends State<AgendView> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(agend.titulo, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.blueGrey), textAlign: TextAlign.left,),
+                                      Text(agend.titulo, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent), textAlign: TextAlign.left,),
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
                                         child: Text( agend.endereco, textAlign: TextAlign.left, style: TextStyle(fontSize: 10),),
                                       ),
-                                      Text(agend.descricao, textAlign: TextAlign.justify, maxLines: 2,),
+                                      Text(agend.descricao, textAlign: TextAlign.justify),
+                                      Text(agend.link, textAlign: TextAlign.justify, style: TextStyle(color: Colors.blueAccent),),
                                       SizedBox(height: 3,),
+                                      Text(DateFormat('H').format(DateTime.parse(agend.data.toString()))+'h'+DateFormat('mm').format(DateTime.parse(agend.data.toString()))+'min', textAlign: TextAlign.left, style: TextStyle( fontSize: 14, fontWeight: FontWeight.w300, color: Colors.blueGrey),),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[

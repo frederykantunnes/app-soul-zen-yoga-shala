@@ -12,10 +12,11 @@ class UserModel {
   String turma;
   final String dataprimeiraaula;
   final String nascimento;
+  final String foto;
 
   UserModel({this.id, this.tipo, this.email, this.senha, this.nome,
     this.endereco, this.bairro, this.cidade, this.cep, this.telefone,
-    this.turma, this.dataprimeiraaula, this.nascimento});
+    this.turma, this.dataprimeiraaula, this.nascimento, this.foto});
 
 
   factory UserModel.fromJson(Map<String, dynamic> json){
@@ -27,6 +28,7 @@ class UserModel {
       nome: json['nome'],
       endereco: json['endereco'],
       bairro: json['bairro'],
+      foto: json['foto'],
       cidade: json['cidade'],
       cep: json['cep'],
       telefone: json['telefone'],

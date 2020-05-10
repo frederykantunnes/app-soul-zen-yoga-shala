@@ -230,9 +230,20 @@ class _CreateAccountState extends State<CreateAccount> {
                 setState(() {
                   _index++;
                 });
-
               }else{
                 userController.createAccount(context);
+              }
+
+              if(_index==2){
+                setState(() {
+                  botao_text = 'Criar Conta';
+                  cor = Colors.greenAccent;
+                });
+              }else{
+                setState(() {
+                  botao_text = 'Avançar';
+                  cor = Colors.blueAccent;
+                });
               }
             },
               controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {

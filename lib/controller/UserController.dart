@@ -67,7 +67,6 @@ class UserController{
           UserModel user = UserModel.fromJson(json.decode(response.body));
           _insert(user);
           Navigator.pop(context);
-          Navigator.pop(context);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeViewNew()));
           DialogAlert().showMessageDialog(context, "Conta Criada", "Bem vindo ao App Soul Zen Yoga Shala!");
         } else {
