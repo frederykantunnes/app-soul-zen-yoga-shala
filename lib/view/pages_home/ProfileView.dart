@@ -4,6 +4,9 @@ import 'package:yoga_app/controller/UserController.dart';
 import 'package:yoga_app/view/DialogAlert.dart';
 import 'package:yoga_app/view/LoginView.dart';
 import 'package:yoga_app/view/pages_home/FinanceView.dart';
+import 'package:yoga_app/view/pages_home/ProfileEditPasswordView.dart';
+import 'package:yoga_app/view/pages_home/ProfileEditView.dart';
+import 'package:intl/intl.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -92,7 +95,7 @@ class _ProfileViewState extends State<ProfileView> {
                         Text(
                           UserController.usuarioLogado.nome,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
@@ -129,7 +132,9 @@ class _ProfileViewState extends State<ProfileView> {
                       elevation: 0,
                       heroTag: 'settings',
                       child: Icon(Icons.settings),
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileEditView()));
+                      },
                     ),
                     SizedBox(height: 5,),
                     Text('Configurações')
@@ -175,19 +180,37 @@ class _ProfileViewState extends State<ProfileView> {
                   children: <Widget>[
                     Text("Dados Pessoais", style: TextStyle(fontSize: 20),),
                     SizedBox(height: 5,),
-                    Text("Endereço: "+UserController.usuarioLogado.endereco+", "+UserController.usuarioLogado.bairro),
+                    Text("Endereço: "+UserController.usuarioLogado.endereco),
+                    Text("Bairro: "+UserController.usuarioLogado.bairro),
                     Text("Cidade: "+UserController.usuarioLogado.cidade),
                     Text("CEP: "+UserController.usuarioLogado.cep),
-                    Text("Data de Nascimento: "+UserController.usuarioLogado.nascimento),
+                    Text("Data de Nascimento: "+ DateFormat('dd/MM/y').format(DateTime.parse(UserController.usuarioLogado.nascimento))),
                     SizedBox(height: 30,),
                     Text("Turma", style: TextStyle(fontSize: 20),),
                     SizedBox(height: 5,),
                     Text("Possui turma? "+ (UserController.usuarioLogado.turma==null?"Não":"Sim")),
-                    Text((UserController.usuarioLogado.turma==null?"":("Data de da Primeira Aula: "+UserController.usuarioLogado.dataprimeiraaula.toString()))),
+                    Text("Primeira Aula: "+UserController.usuarioLogado.getDataPrimeiraAula()),
                   ],
                 ),
               )
             ),
+
+            SizedBox(
+              height: 10,
+            ),
+
+            SizedBox(
+              width: MediaQuery.of(context).size.width-16,
+              child: RaisedButton(
+                color: Colors.blueAccent,
+                child: Text("Alterar Senha", style: TextStyle(color: Colors.white),),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileEditPasswordView()));
+                },
+              ),
+            ),
+
+
             SizedBox(
               height: 100,
             )

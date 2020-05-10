@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class UserModel {
   final int id;
   final int tipo;
@@ -38,6 +40,13 @@ class UserModel {
     );
   }
 
+  String getDataPrimeiraAula(){
+    if(this.dataprimeiraaula==null || this.dataprimeiraaula.isEmpty){
+      return "Não Definida";
+    }else{
+      return DateFormat('dd/MM/y').format(DateTime.parse(this.dataprimeiraaula));
+    }
+  }
 
 
   @override

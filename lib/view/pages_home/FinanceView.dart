@@ -27,8 +27,6 @@ class FinanceView extends StatelessWidget {
               ),
             );
           }
-
-
           return ListView.builder(
             itemCount: projectSnap.data == null ? 0 : projectSnap.data.length,
             itemBuilder: (context, index) {
